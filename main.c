@@ -81,11 +81,6 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    FILE *fp;
-    fp = fopen(argv[2], "r");
-    if (fp == NULL)
-        exit(EXIT_FAILURE);
-
     filereader_t file;
-    filereader_create(&file, fp);
+    filereader_create(&file, input);
 }
