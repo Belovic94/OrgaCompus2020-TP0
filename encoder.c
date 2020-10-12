@@ -24,7 +24,6 @@ char *encode_base64(filereader_t* file) {
         for (size_t i = 0; i < 4; i++) {
             encoded_data[index++] = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : "=";    
         }
-        
     }
     return encoded_data;
 }
