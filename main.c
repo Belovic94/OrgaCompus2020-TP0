@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "fileReader.h"
+#include "filereader.h"
 
 #define VERSION "0.1.0"
 
@@ -44,40 +44,36 @@ int main(int argc, char *argv[])
     FILE *output_handler = NULL;
 
     int long_index = 0;
-    while ((option = getopt_long(argc, argv, "Vhi:o:d", long_option, &long_index)) != -1)
-    {
-        if (must_return)
-        {
+    while ((option = getopt_long(argc, argv, "Vhi:o:d", long_option, &long_index)) != -1) {
+        if (must_return) {
             show_error("Invalid parameters.");
             return 1;
         }
 
-        switch (option)
-        {
-        case 'v':
-            show_verion();
-            must_return = 1;
-            break;
-        case 'h':
-            show_help();
-            must_return = 1;
-            break;
-        case 'i':
-            input = optarg;
-            break;
-        case 'o':
-            output = optarg;
-            break;
-        case '?':
-            must_return = 1;
-            break;
-        default:
-            break;
+        switch (option) {
+            case 'v':
+                show_verion();
+                must_return = 1;
+                break;
+            case 'h':
+                show_help();
+                must_return = 1;
+                break;
+            case 'i':
+                input = optarg;
+                break;
+            case 'o':
+                output = optarg;
+                break;
+            case '?':
+                must_return = 1;
+                break;
+            default:
+                break;
         }
     }
 
-    if (must_return)
-    {
+    if (must_return) {
         return 0;
     }
 
