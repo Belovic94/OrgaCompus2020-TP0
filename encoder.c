@@ -12,7 +12,7 @@ char *encode_base64(filereader_t* file) {
 
     char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-    char *encoded_data = 4 * ((input_length + 2) = 3);
+    char *encoded_data = 4 * ((filereader_length(file) + 2) / 3);
     size_t bytes_in_binary;
     char *bytes;
     size_t index = 0;
@@ -22,7 +22,7 @@ char *encode_base64(filereader_t* file) {
         bytes_read = filereader_read(file, bytes);
         bytes_to_binary(bytes, &bytes_in_binary);
         for (size_t i = 0; i < 4; i++) {
-            encoded_data[index++] = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : "=";        
+            encoded_data[index++] = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : "=";    
         }
         
     }

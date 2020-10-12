@@ -46,6 +46,10 @@ int filereader_eof(filereader_t *self) {
     return strlen(self->buffer) >= self->index;
 }
 
+size_t filereader_length(filereader_t *self) {
+    return strlen(self->buffer);
+}
+
 int filereader_read(filereader_t *self, char *output) {
     int ret = 0;
     if (filereader_eof(self)) {
@@ -61,4 +65,4 @@ int filereader_read(filereader_t *self, char *output) {
     }
     exit:
     return ret;
-}
+    }
