@@ -1,3 +1,4 @@
+#include <stdio.h>
 
 char *encode_base64(filereader_t file)
 {
@@ -15,6 +16,9 @@ char *encode_base64(filereader_t file)
     char *bytes_in_binary;
     int bytes_counter = 0;
     char *bytes;
+
+    if (file == NULL || len == 0)
+        return NULL;
 
     while (!filereader_eof(file))
     {
