@@ -12,7 +12,12 @@ char *encode_base64(filereader_t* file) {
 
     char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-    char *encoded_data = 4 * ((filereader_length(file) + 2) / 3);
+    size_t output_size = filereader_length(file);
+    if (output_size % 3 != 0)
+        output_size += 3 - (filereader_length(file) % 3);
+    output_size /= 3;
+    output_size *= 4;
+    char *encoded_data = calloc(output_size, sizeof(char));
     size_t bytes_in_binary;
     char *bytes;
     size_t index = 0;
