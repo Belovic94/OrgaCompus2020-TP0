@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "filereader.h"
+#include "encoder.h"
 
 #define VERSION "0.1.0"
 
@@ -48,7 +49,7 @@ int main(int argc, char *argv[]) {
         }
 
         switch (option) {
-            case 'v':
+            case 'V':
                 show_version();
                 must_return = 1;
                 break;
@@ -66,6 +67,7 @@ int main(int argc, char *argv[]) {
                 must_return = 1;
                 break;
             default:
+                must_return = 1;
                 break;
         }
     }
@@ -80,4 +82,5 @@ int main(int argc, char *argv[]) {
 
     filereader_t file;
     filereader_create(&file, input);
+    encode_base64(&file);
 }
