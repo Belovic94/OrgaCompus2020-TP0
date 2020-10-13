@@ -6,7 +6,7 @@ all: tp0
 
 prof: tp2_pf
 
-tp0: main.c
+tp0: main.c filereader.c encoder.c
 	gcc -g $^ -o $@
 
 clean:
