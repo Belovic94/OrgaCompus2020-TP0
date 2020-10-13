@@ -44,7 +44,7 @@ void filereader_destroy(filereader_t *self) {
 }
 
 int filereader_eof(filereader_t *self) {
-    return strlen(self->buffer) >= self->index;
+    return self->index >= strlen(self->buffer);
 }
 
 size_t filereader_length(filereader_t *self) {

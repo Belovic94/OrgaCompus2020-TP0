@@ -1,5 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "filereader.h"
+
+void bytes_to_binary(char *bytes, size_t *output)
+{
+    size_t aux = bytes[0];
+    for (int i = 1; i < 3; i++) {
+        aux = (bytes[i] == "") ? aux << 8 | bytes[i] : aux << 8;
+    }
+    *output = aux;
+}
 
 void encode_base64(filereader_t* file) {
     //Leer hasta 3 bytes o lo que se pueda. Si no se completan, llenar con ceros.
@@ -20,7 +30,7 @@ void encode_base64(filereader_t* file) {
     output_size *= 4;
     char *encoded_data = calloc(output_size, sizeof(char));
     size_t bytes_in_binary;
-    char *bytes;
+    char bytes[3];
     size_t index = 0;
     int bytes_read = 0;
 
@@ -28,16 +38,8 @@ void encode_base64(filereader_t* file) {
         bytes_read = filereader_read(file, bytes);
         bytes_to_binary(bytes, &bytes_in_binary);
         for (size_t i = 0; i < 4; i++) {
-            encoded_data[index++] = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : "=";    
+            encoded_data[index++] = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : '=';    
         }
     }
-    fprintf(stdout, encoded_data);
-}
-
-void bytes_to_binary(char *bytes, size_t *output) {
-    size_t aux = bytes[0];
-    for (int i = 1; i < 3; i++) {
-        aux = strcmp(bytes[i], "") == 0 ? aux << 8 | bytes[i] : aux << 8;
-    }
-    *output = aux;
+    fprintf(stdout, "%s \n", encoded_data);
 }

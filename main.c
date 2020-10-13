@@ -28,7 +28,7 @@ void show_version() {
 }
 
 void show_error(char *msg) {
-    fprintf(stderr, msg);
+    fprintf(stderr, "%s", msg);
 }
 
 int main(int argc, char *argv[]) {
@@ -38,8 +38,6 @@ int main(int argc, char *argv[]) {
     int must_return = 0;
     char *input = NULL;
     char *output = NULL;
-    FILE *input_handler = NULL;
-    FILE *output_handler = NULL;
 
     int long_index = 0;
     while ((option = getopt_long(argc, argv, "Vhi:o:d", 4, &long_index)) != -1) {
