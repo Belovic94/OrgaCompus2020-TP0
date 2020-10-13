@@ -1,7 +1,3 @@
-//
-// Created by victorbelosevich on 10/09/19.
-//
-
 #ifndef FILEREADER_H
 #define FILEREADER_H
 

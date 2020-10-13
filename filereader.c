@@ -1,7 +1,3 @@
-//
-// Created by victorbelosevich.
-//
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,13 +21,18 @@ char* _copy_file(FILE* file) {
 int filereader_create(filereader_t *self, char * filename) {
     int ret = EXIT_SUCCESS;
     FILE* fp;
-    fp = fopen(filename, "r");
-    if (fp == NULL) {
-        ret = EXIT_FAILURE;
-        fprintf(stderr, "Archivo no encontrado");
-        goto exit;
+    if (strcmp(filename, "stdin") == 0) {
+
+    } else {
+        fp = fopen(filename, "r");
+        if (fp == NULL)
+        {
+            ret = EXIT_FAILURE;
+            fprintf(stderr, "Archivo con nombre: %s no encontrado \n", filename);
+            goto exit;
+        }
+        self->buffer = _copy_file(fp);
     }
-    self->buffer = _copy_file(fp);
     self->index = 0;
     exit:
     fclose(fp);
