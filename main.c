@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <getopt.h>
 #include "filereader.h"
 #include "encoder.h"
 
@@ -39,8 +40,16 @@ int main(int argc, char *argv[]) {
     char *input = NULL;
     char *output = NULL;
 
+    static struct option long_options[] = {
+        {"version", no_argument, 0, 'V'},
+        {"help", no_argument, 0, 'h'},
+        {"input", required_argument, 0, 'i'},
+        {"output", required_argument, 0, 'o'},
+        {"decode", no_argument, 0, 'd'}, 
+    };
+
     int long_index = 0;
-    while ((option = getopt_long(argc, argv, "Vhi:o:d", 4, &long_index)) != -1) {
+    while ((option = getopt_long(argc, argv, "Vhi:o:d", long_options, &long_index)) != -1) {
         if (must_return) {
             show_error("Invalid parameters.");
             return 1;
