@@ -59,7 +59,9 @@ int filereader_read(filereader_t *self, char *output, int amount) {
     for (size_t i = 0; i < amount; i++) {
         if (!filereader_eof(self)) {
             output[i] = self->buffer[self->index++];
-            ret++;
+            if (output[i] != '=') {
+                ret++;
+            }
         } else {
             output[i] = "";
         }  

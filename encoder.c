@@ -2,15 +2,15 @@
 #include <stdlib.h>
 #include "filereader.h"
 
-void bytes_to_binary(char *bytes, size_t *output) {
+void encode_bytes_to_binary(char *bytes, size_t *output) {
     size_t aux = bytes[0];
     for (int i = 1; i < 3; i++) {
-        aux = (bytes[i] == "") ? aux << 8 : aux << 8 | bytes[i];
+        aux = (bytes[i] == '\0') ? aux << 8 : aux << 8 | bytes[i];
     }
     *output = aux;
 }
 
-void encode_base64(filereader_t* file) {
+int encode_base64(filereader_t* file) {
     //Leer hasta 3 bytes o lo que se pueda. Si no se completan, llenar con ceros.
     //Se encodea en base 64:
     //Pasar los 3 bytes a binario. Tomar 4 bloques de a 6 bits. Rellenar a la izquierda cada bloque
@@ -36,10 +36,11 @@ void encode_base64(filereader_t* file) {
 
     while (!filereader_eof(file)) {
         bytes_read = filereader_read(file, bytes, 3);
-        bytes_to_binary(bytes, &bytes_in_binary);
+        encode_bytes_to_binary(bytes, &bytes_in_binary);
         for (size_t i = 0; i < 4; i++) {
             encoded_data[index++] = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : '=';    
         }
     }
     fprintf(stdout, "%s \n", encoded_data);
+    return EXIT_SUCCESS;
 }
