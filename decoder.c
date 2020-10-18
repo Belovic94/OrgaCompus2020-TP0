@@ -15,5 +15,6 @@ char* decode_base64(filereader_t* file) {
     size_t output_size = file_length / 4 * 3;
 
     for (size_t i = 0; i < file_length; i++) {
+        
     }
 }
