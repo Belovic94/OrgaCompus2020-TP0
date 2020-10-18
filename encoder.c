@@ -35,8 +35,7 @@ void encode_base64(filereader_t* file) {
     int bytes_read = 0;
 
     while (!filereader_eof(file)) {
-        bytes_read = filereader_read(file, bytes);
-        fprintf(stdout, "%s \n", bytes);
+        bytes_read = filereader_read(file, bytes, 3);
         bytes_to_binary(bytes, &bytes_in_binary);
         for (size_t i = 0; i < 4; i++) {
             encoded_data[index++] = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : '=';    

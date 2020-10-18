@@ -10,11 +10,37 @@ int is_valid_char(char c) {
     return 0;
 }
 
+void bytes_to_binary(char *bytes, size_t *output) {
+    size_t aux = bytes[0];
+    for (int i = 1; i < 4; i++) {
+        aux = (bytes[i] == "=") ? aux << 6 : aux << 6 | bytes[i];
+    }
+    *output = aux;
+}
+
 char* decode_base64(filereader_t* file) {
     size_t file_length = filereader_length(file);
     size_t output_size = file_length / 4 * 3;
+    char *decoded_data = calloc(output_size + 1, sizeof(char));
 
-    for (size_t i = 0; i < file_length; i++) {
-        
+    char output;
+    char bytes[4];
+    int bytes_read = 0;
+    size_t index = 0;
+    size_t bytes_in_binary;
+
+
+    while (!filereader_eof(file)) {
+        if(filereader_read_char(file, &output) != 0 && !is_valid_char(output)) {
+            return 0;
+        }
+        bytes_read = filereader_read(file, bytes, 4);
+
+        bytes_to_binary(bytes, &bytes_in_binary);
+        for (size_t i = 0; i < 4; i++) {
+            decoded_data[index++] = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : '=';    
+        }
     }
+    fprintf(stdout, "%s \n", decoded_data);
+
 }

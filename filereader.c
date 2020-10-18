@@ -51,12 +51,12 @@ size_t filereader_length(filereader_t *self) {
     return strlen(self->buffer);
 }
 
-int filereader_read(filereader_t *self, char *output) {
+int filereader_read(filereader_t *self, char *output, int amount) {
     int ret = 0;
     if (filereader_eof(self)) {
         goto exit;
     }
-    for (size_t i = 0; i < 3; i++) {
+    for (size_t i = 0; i < amount; i++) {
         if (!filereader_eof(self)) {
             output[i] = self->buffer[self->index++];
             ret++;
