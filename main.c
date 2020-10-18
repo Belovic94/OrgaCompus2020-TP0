@@ -5,6 +5,7 @@
 #include <getopt.h>
 #include "filereader.h"
 #include "encoder.h"
+#include "decoder.h"
 
 #define VERSION "0.1.0"
 
@@ -37,6 +38,7 @@ int main(int argc, char *argv[]) {
     int version = 0;
     int help = 0;
     int must_return = 0;
+    int decode = 0;
     char *input = NULL;
     char *output = NULL;
 
@@ -70,6 +72,9 @@ int main(int argc, char *argv[]) {
             case 'o':
                 output = optarg;
                 break;
+            case 'd':
+                decode = 1;
+                break;
             case '?':
                 must_return = 1;
                 break;
@@ -89,5 +94,10 @@ int main(int argc, char *argv[]) {
 
     filereader_t file;
     filereader_create(&file, input);
-    encode_base64(&file);
+    if (decode) {
+        decode_base64(&file);
+    } else {
+        encode_base64(&file);
+    }
+    
 }
