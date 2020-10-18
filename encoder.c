@@ -2,11 +2,14 @@
 #include <stdlib.h>
 #include "filereader.h"
 
-void bytes_to_binary(char *bytes, size_t *output)
-{
+void bytes_to_binary(char *bytes, size_t *output) {
     size_t aux = bytes[0];
+    fprintf(stdout, "bytes_to_bynary: Primer byte ascii:  %zu \n", aux);
+    fprintf(stdout, "bytes_to_bynary: Primer byte hexa %x \n", aux);
     for (int i = 1; i < 3; i++) {
-        aux = (bytes[i] == "") ? aux << 8 | bytes[i] : aux << 8;
+        aux = (bytes[i] == "") ? aux << 8 : aux << 8 | bytes[i];
+        fprintf(stdout, "bytes_to_bynary: %d byte ascii: %zu \n", i, aux);
+        fprintf(stdout, "bytes_to_bynary: %d byte hexa: %x \n",i, aux);
     }
     *output = aux;
 }
@@ -28,7 +31,8 @@ void encode_base64(filereader_t* file) {
     }
     output_size /= 3;
     output_size *= 4;
-    char *encoded_data = calloc(output_size, sizeof(char));
+    char *encoded_data = calloc(output_size + 1, sizeof(char));
+    encoded_data[output_size] = '\0';
     size_t bytes_in_binary;
     char bytes[3];
     size_t index = 0;
@@ -36,10 +40,13 @@ void encode_base64(filereader_t* file) {
 
     while (!filereader_eof(file)) {
         bytes_read = filereader_read(file, bytes);
+        fprintf(stdout, "%s \n", bytes);
         bytes_to_binary(bytes, &bytes_in_binary);
+        fprintf(stdout, "%x \n", bytes_in_binary);
         for (size_t i = 0; i < 4; i++) {
             encoded_data[index++] = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : '=';    
         }
     }
     fprintf(stdout, "%s \n", encoded_data);
+    fprintf(stdout, "%d \n", strlen(encoded_data));
 }
