@@ -103,6 +103,7 @@ int main(int argc, char *argv[]) {
     } else {
         ret = encode_base64(&file);
     }
+    filereader_destroy(&file);
     exit:
     return ret;
     
