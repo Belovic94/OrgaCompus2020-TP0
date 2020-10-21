@@ -41,6 +41,7 @@ int main(int argc, char *argv[]) {
     int decode = 0;
     char *input = NULL;
     char *output = NULL;
+    int ret = EXIT_SUCCESS;
 
     static struct option long_options[] = {
         {"version", no_argument, 0, 'V'},
@@ -93,11 +94,16 @@ int main(int argc, char *argv[]) {
     }
 
     filereader_t file;
-    filereader_create(&file, input);
-    if (decode) {
-        decode_base64(&file);
-    } else {
-        encode_base64(&file);
+    if (filereader_create(&file, input) == EXIT_FAILURE) {
+        ret = EXIT_FAILURE;
+        goto exit;
     }
+    if (decode) {
+        ret = decode_base64(&file);
+    } else {
+        ret = encode_base64(&file);
+    }
+    exit:
+    return ret;
     
 }
