@@ -16,7 +16,7 @@ void filewriter_write(filewriter_t *self, char *output) {
         fprintf(fp, "%s", output);
         fclose(fp);
     } else {
-        fprintf(stdout, "%s \n", output);
+        fprintf(stdout, "%s", output);
     }
 }
 
