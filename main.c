@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
     filewriter_t outputFile;
     if (filereader_create(&inputFile, input) == EXIT_FAILURE) {
         ret = EXIT_FAILURE;
-        goto exit;
+        goto exit_filereader;
     }
     filewriter_create(&outputFile, output);
     if (decode) {
@@ -110,9 +110,8 @@ int main(int argc, char *argv[]) {
     } else {
         ret = encode_base64(&inputFile, &outputFile);
     }
-    exit:
-    filereader_destroy(&inputFile);
     filewriter_destroy(&outputFile);
+    filereader_destroy(&inputFile);
+    exit_filereader:
     return ret;
-    
 }

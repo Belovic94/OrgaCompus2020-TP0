@@ -22,7 +22,5 @@ void filewriter_write(filewriter_t *self, char *output) {
 
 
 void filewriter_destroy(filewriter_t *self) {
-    if (self->filename != NULL) {
-        free(self->filename);
-    }
+    free(self->filename);
 }
