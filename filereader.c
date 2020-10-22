@@ -38,7 +38,6 @@ char* _copy_file_from_stdin() {
 int filereader_create(filereader_t *self, char * filename) {
     if (strcmp(filename, "stdin") == 0) {
         self->buffer = _copy_file_from_stdin();
-        fprintf(stdout, "Buffer outside: %s \n", self->buffer);
     } else {
         FILE *fp;
         fp = fopen(filename, "r");
@@ -54,7 +53,9 @@ int filereader_create(filereader_t *self, char * filename) {
 }
 
 void filereader_destroy(filereader_t *self) {
-    free(self->buffer);
+    if (self->buffer != NULL) {
+        free(self->buffer);
+    }
 }
 
 int filereader_eof(filereader_t *self) {

@@ -1,20 +1,14 @@
-#ifndef FILEWITER_H
-#define FILEWITER_H
+#ifndef FILEWRITER_H
+#define FILEWRITER_H
 
 typedef struct {
-   char* buffer;
-   int index;
+   char* filename;
 }filewriter_t;
 
 int filewriter_create(filewriter_t* self, char *filename);
 
 void filewriter_destroy(filewriter_t* self);
 
-int filewriter_read(filewriter_t *self, char *output, int amount);
+void filewriter_write(filewriter_t *self, char *output);
 
-
-int filewriter_eof(filewriter_t *self);
-
-size_t filewriter_length(filewriter_t *self);
-
-#endif //FILEWITER_H
+#endif //FILEWRITER_H

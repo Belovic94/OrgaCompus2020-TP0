@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <getopt.h>
 #include "filereader.h"
+#include "filewriter.h"
 #include "encoder.h"
 #include "decoder.h"
 
@@ -93,18 +94,27 @@ int main(int argc, char *argv[]) {
         input = "stdin";
     }
 
-    filereader_t file;
-    if (filereader_create(&file, input) == EXIT_FAILURE) {
+    if (output == NULL) {
+        output = "stdout";
+    }
+
+    filereader_t inputFile;
+    filewriter_t outputFile;
+    if (filereader_create(&inputFile, input) == EXIT_FAILURE) {
         ret = EXIT_FAILURE;
         goto exit;
     }
+    fprintf(stdout, "Salio del fileReader \n");
+    filewriter_create(&outputFile, output);
+    fprintf(stdout, "Salio del filewriter \n");
     if (decode) {
-        ret = decode_base64(&file);
+        ret = decode_base64(&inputFile, &outputFile);
     } else {
-        ret = encode_base64(&file);
+        ret = encode_base64(&inputFile, &outputFile);
     }
-    filereader_destroy(&file);
     exit:
+    filereader_destroy(&inputFile);
+    filewriter_destroy(&outputFile);
     return ret;
     
 }

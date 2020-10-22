@@ -6,7 +6,7 @@ echo "Test help command"
 ../tp0 -h
 
 echo "Test version command"
-../tp0 - V
+../tp0 -V
 
 echo "Test case 1: "
 ../tp0 -i encoder-test.txt
