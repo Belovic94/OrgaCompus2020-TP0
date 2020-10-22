@@ -104,9 +104,7 @@ int main(int argc, char *argv[]) {
         ret = EXIT_FAILURE;
         goto exit;
     }
-    fprintf(stdout, "Salio del fileReader \n");
     filewriter_create(&outputFile, output);
-    fprintf(stdout, "Salio del filewriter \n");
     if (decode) {
         ret = decode_base64(&inputFile, &outputFile);
     } else {

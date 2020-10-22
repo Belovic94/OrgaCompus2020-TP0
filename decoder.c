@@ -36,6 +36,7 @@ int decode_base64(filereader_t* inputFile, filewriter_t* outputFile) {
         bytes_read = filereader_read(inputFile, bytes, 4);
         for (size_t i = 0; i < bytes_read; i++) {
             if (!is_valid_char(bytes[i])) {
+                fprintf(stderr, "Cannot decode file, it has invalid characters \n");
                 return EXIT_FAILURE;
             }
         }

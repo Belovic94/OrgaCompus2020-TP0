@@ -10,7 +10,6 @@ int filewriter_create(filewriter_t *self, char *filename) {
 }
 
 void filewriter_write(filewriter_t *self, char *output) {
-    fprintf(stdout, "Entre al fileWriter \n");
     if (strcmp(self->filename, "stdout") != 0) {
         FILE *fp;
         fp = fopen(self->filename, "w");
