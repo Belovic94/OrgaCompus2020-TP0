@@ -4,7 +4,7 @@
 #include "filereader.h"
 #include <unistd.h>
 
-char* _copy_file(FILE* file) {
+/* char* _copy_file(FILE* file) {
     int numbytes;
     fseek(file, 0, SEEK_END);
     numbytes = ftell(file);
@@ -33,11 +33,11 @@ char* _copy_file_from_stdin() {
     buffer[n] = '\0';
 
     return buffer;
-}
+} */
 
 int filereader_create(filereader_t *self, char * filename) {
     if (strcmp(filename, "stdin") == 0) {
-        self->buffer = _copy_file_from_stdin();
+        self->file = stdin;
     } else {
         FILE *fp;
         fp = fopen(filename, "r");
@@ -45,40 +45,18 @@ int filereader_create(filereader_t *self, char * filename) {
             fprintf(stderr, "File not found: %s  \n", filename);
             return EXIT_FAILURE;
         }
-        self->buffer = _copy_file(fp);
-        fclose(fp);
+        self->file = fp;
     }
     self->index = 0;
     return EXIT_SUCCESS;
 }
 
 void filereader_destroy(filereader_t *self) {
-    free(self->buffer);
-}
-
-int filereader_eof(filereader_t *self) {
-    return self->index >= strlen(self->buffer);
-}
-
-size_t filereader_length(filereader_t *self) {
-    return strlen(self->buffer);
+    if (self->file != 0) {
+        fclose(self->file);
+    }
 }
 
 int filereader_read(filereader_t *self, char *output, int amount) {
-    int ret = 0;
-    if (filereader_eof(self)) {
-        goto exit;
-    }
-    for (size_t i = 0; i < amount; i++) {
-        if (!filereader_eof(self)) {
-            output[i] = self->buffer[self->index++];
-            if (output[i] != '=') {
-                ret++;
-            }
-        } else {
-            output[i] = "";
-        }  
-    }
-    exit:
-    return ret;
+    return read(fileno(self->file), output, amount);
 }

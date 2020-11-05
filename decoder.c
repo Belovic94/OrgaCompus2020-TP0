@@ -21,22 +21,23 @@ void decode_bytes_to_binary(char *bytes, size_t *output) {
 }
 
 int decode_base64(filereader_t* inputFile, filewriter_t* outputFile) {
-    size_t file_length = filereader_length(inputFile);
-    size_t output_size = file_length / 4 * 3;
-    char *decoded_data = calloc(output_size + 1, sizeof(char));
-
+    size_t total_allocated = 4;
     char output;
     char bytes[4];
     int bytes_read = 0;
     size_t index = 0;
     size_t bytes_in_binary;
+    char *decoded_data = calloc(total_allocated, sizeof(char));
 
-
-    while (!filereader_eof(inputFile)) {
-        bytes_read = filereader_read(inputFile, bytes, 4);
+    while ((bytes_read = filereader_read(inputFile, bytes, 4)) > 0) { 
+        if (total_allocated <= index) {
+            total_allocated += 3;
+            decoded_data = realloc(decoded_data, total_allocated * sizeof(char));
+        }
         for (size_t i = 0; i < bytes_read; i++) {
             if (!is_valid_char(bytes[i])) {
                 fprintf(stderr, "Cannot decode file, it has invalid characters \n");
+                free(decoded_data);
                 return EXIT_FAILURE;
             }
         }
@@ -46,6 +47,7 @@ int decode_base64(filereader_t* inputFile, filewriter_t* outputFile) {
         }
     }
     filewriter_write(outputFile, decoded_data);
+    free(decoded_data);
     return EXIT_SUCCESS;
 
 }

@@ -101,8 +101,7 @@ int main(int argc, char *argv[]) {
     filereader_t inputFile;
     filewriter_t outputFile;
     if (filereader_create(&inputFile, input) == EXIT_FAILURE) {
-        ret = EXIT_FAILURE;
-        goto exit_filereader;
+        return EXIT_FAILURE;
     }
     filewriter_create(&outputFile, output);
     if (decode) {
@@ -112,6 +111,5 @@ int main(int argc, char *argv[]) {
     }
     filewriter_destroy(&outputFile);
     filereader_destroy(&inputFile);
-    exit_filereader:
     return ret;
 }

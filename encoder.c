@@ -13,27 +13,24 @@ void encode_bytes_to_binary(char *bytes, size_t *output) {
 
 int encode_base64(filereader_t* inputFile, filewriter_t* outputFile) {
     char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-    size_t output_size = filereader_length(inputFile);
-    if (output_size % 3 != 0) {
-        output_size += 3 - (filereader_length(inputFile) % 3);
-    }
-    output_size /= 3;
-    output_size *= 4;
-    char *encoded_data = calloc(output_size + 1, sizeof(char));
-    encoded_data[output_size] = '\0';
+    size_t total_allocated = 5;
     size_t bytes_in_binary;
     char bytes[3];
     size_t index = 0;
+    char *encoded_data = calloc(total_allocated, sizeof(char));
     int bytes_read = 0;
 
-    while (!filereader_eof(inputFile)) {
-        bytes_read = filereader_read(inputFile, bytes, 3);
+    while ((bytes_read = filereader_read(inputFile, bytes, 3)) > 0) {
+        if (total_allocated <= index) {
+            total_allocated += 4;
+            encoded_data = realloc(encoded_data, total_allocated * sizeof(char));
+        }
         encode_bytes_to_binary(bytes, &bytes_in_binary);
         for (size_t i = 0; i < 4; i++) {
             encoded_data[index++] = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : '=';    
         }
     }
     filewriter_write(outputFile, encoded_data);
+    free(encoded_data);
     return EXIT_SUCCESS;
 }
