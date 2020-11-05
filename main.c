@@ -8,7 +8,7 @@
 #include "encoder.h"
 #include "decoder.h"
 
-#define VERSION "0.1.0"
+#define VERSION "0.2.0"
 
 void show_help() {
     printf("Usage:\n");

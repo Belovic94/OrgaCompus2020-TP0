@@ -21,7 +21,7 @@ void decode_bytes_to_binary(char *bytes, size_t *output) {
 }
 
 int decode_base64(filereader_t* inputFile, filewriter_t* outputFile) {
-    size_t total_allocated = 4;
+    size_t total_allocated = 3;
     char output;
     char bytes[4];
     int bytes_read = 0;

@@ -13,7 +13,7 @@ void encode_bytes_to_binary(char *bytes, size_t *output) {
 
 int encode_base64(filereader_t* inputFile, filewriter_t* outputFile) {
     char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    size_t total_allocated = 5;
+    size_t total_allocated = 4;
     size_t bytes_in_binary;
     char bytes[3];
     size_t index = 0;
