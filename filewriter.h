@@ -2,7 +2,7 @@
 #define FILEWRITER_H
 
 typedef struct {
-   char* filename;
+   FILE* file;
 }filewriter_t;
 
 int filewriter_create(filewriter_t* self, char *filename);

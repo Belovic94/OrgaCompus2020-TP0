@@ -77,7 +77,7 @@ echo "Salida obtenida:"
 echo " "
 
 echo "Test case 12: "
-echo "Salida esperada: "
+echo "Salida esperada: tp0 version: 0.2.0"
 echo "Salida obtenida:"
-cat ../tp0 | ../tp0 | ../tp0 -d > tp0bis && chmod +x tp0bis && ./tp0bis -h
+cat ../tp0 | ../tp0 | ../tp0 -d > tp0bis && chmod +x tp0bis && ./tp0bis -V
 echo " "

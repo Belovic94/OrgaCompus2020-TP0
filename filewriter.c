@@ -2,25 +2,38 @@
 #include <stdlib.h>
 #include <string.h>
 #include "filewriter.h"
+#include <unistd.h>
 
 int filewriter_create(filewriter_t *self, char *filename) {
-    self->filename = calloc(strlen(filename), sizeof(char));
-    strncpy(self->filename, filename, strlen(filename));
+    if (strcmp(filename, "stdout") == 0) {
+        self->file = stdout;
+    } else {
+        FILE *fp;
+        fp = fopen(filename, "w");
+        if (fp == NULL) {
+            fprintf(stderr, "File not found: %s  \n", filename);
+            return EXIT_FAILURE;
+        }
+        self->file = fp;
+    }
     return EXIT_SUCCESS;
 }
 
-void filewriter_write(filewriter_t *self, char *output) {
-    if (strcmp(self->filename, "stdout") != 0) {
+void filewriter_write(filewriter_t *self, char* output) {
+    write(fileno(self->file), output, 1);
+    /* if (strcmp(self->filename, "stdout") != 0) {
         FILE *fp;
         fp = fopen(self->filename, "w");
-        fprintf(fp, "%s", output);
+        fwrite(output, strlen(output), sizeof(char), fp);
         fclose(fp);
     } else {
-        fprintf(stdout, "%s", output);
-    }
+        
+    } */
 }
 
 
 void filewriter_destroy(filewriter_t *self) {
-    free(self->filename);
+    if (fileno(self->file) != 1) {
+        fclose(self->file);
+    }
 }
