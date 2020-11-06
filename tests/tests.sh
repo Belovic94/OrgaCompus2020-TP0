@@ -65,7 +65,7 @@ echo "Salida obtenida:"
 echo " "
 
 echo "Test case 10: "
-echo "Salida esperada: RXN0ZSBlcyB1biB0ZXh0byBkZSBlamVtcGxvIHBhcmEgZWwgdHAwIGRlIE9yZ2FuaXphY2lvbiBkZSBjb21wdXRhZG9yYXN="
+echo "Salida esperada: RXN0ZSBlcyB1biB0ZXh0byBkZSBlamVtcGxvIHBhcmEgZWwgdHAwIGRlIE9yZ2FuaXphY2lvbiBkZSBjb21wdXRhZG9yYXM="
 echo "Salida obtenida:"
 ../tp0 -i encoder2.txt
 echo " "
@@ -74,10 +74,4 @@ echo "Test case 11: "
 echo "Salida esperada: Este es un texto de ejemplo para el tp0 de Organizacion de computadoras"
 echo "Salida obtenida:"
 ../tp0 -i output-encoder2.txt -d
-echo " "
-
-echo "Test case 12: "
-echo "Salida esperada: tp0 version: 0.2.0"
-echo "Salida obtenida:"
-cat ../tp0 | ../tp0 | ../tp0 -d > tp0bis && chmod +x tp0bis && ./tp0bis -V
 echo " "

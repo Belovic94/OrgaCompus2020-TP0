@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "filereader.h"
 #include "filewriter.h"
 
@@ -43,6 +44,7 @@ int decode_base64(filereader_t* inputFile, filewriter_t* outputFile) {
             outputByte = bytes_read >= i ? (bytes_in_binary >> 8 * (2 - i)) & 0xFF : '=';
             filewriter_write(outputFile, &outputByte);
         }
+        memset(bytes, 0, 4);
     }
     return EXIT_SUCCESS;
 }

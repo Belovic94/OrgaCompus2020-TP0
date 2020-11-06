@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "filereader.h"
 #include "filewriter.h"
 
@@ -12,9 +13,10 @@ void encode_bytes_to_binary(char *bytes, size_t *output) {
 }
 
 int encode_base64(filereader_t* inputFile, filewriter_t* outputFile) {
+    
     char *base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
     size_t bytes_in_binary;
-    char bytes[3];
+    char bytes[3] = {0};
     int bytes_read = 0;
     char outputByte;
 
@@ -24,6 +26,7 @@ int encode_base64(filereader_t* inputFile, filewriter_t* outputFile) {
             outputByte = bytes_read >= i ? base64_chars[(bytes_in_binary >> 6 * (3 - i)) & 0x3F] : '=';
             filewriter_write(outputFile, &outputByte);    
         }
+        memset (bytes, 0, 3);
     }
     return EXIT_SUCCESS;
 }
