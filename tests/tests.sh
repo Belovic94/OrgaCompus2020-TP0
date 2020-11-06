@@ -65,7 +65,7 @@ echo "Salida obtenida:"
 echo " "
 
 echo "Test case 10: "
-echo "Salida esperada: RXN0ZSBlcyB1biB0ZXh0byBkZSBlamVtcGxvIHBhcmEgZWwgdHAwIGRlIE9yZ2FuaXphY2lvbiBkZSBjb21wdXRhZG9yYXN="
+echo "Salida esperada: RXN0ZSBlcyB1biB0ZXh0byBkZSBlamVtcGxvIHBhcmEgZWwgdHAwIGRlIE9yZ2FuaXphY2lvbiBkZSBjb21wdXRhZG9yYXM="
 echo "Salida obtenida:"
 ../tp0 -i encoder2.txt
 echo " "
